@@ -134,5 +134,12 @@ public class UsuarioController {
         List<Usuario> naoAdvogados = usuarioService.getUsuariosNaoAdvogados();
         return ResponseEntity.ok(naoAdvogados);
     }
+
+    @GetMapping("/advogados/com-portifolio")
+    public ResponseEntity<List<Usuario>> getAdvogadosComPortfolio() {
+        List<Usuario> advogadosComPortfolio = usuarioService.getAdvogadosComPortfolio();
+        return ResponseEntity.ok(advogadosComPortfolio);
+    }
+
 }
     

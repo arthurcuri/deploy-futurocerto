@@ -86,4 +86,22 @@ public class AgendaController {
         return ResponseEntity.ok(dtos);
     }
 
+    @GetMapping("/disponibilidades/sem-advogado")
+    public ResponseEntity<List<Agenda>> listarDisponibilidadesSemAdvogado() {
+        List<Agenda> disponibilidadesSemAdvogado = agendaService.getDisponibilidadesSemAdvogado();
+        return new ResponseEntity<>(disponibilidadesSemAdvogado, HttpStatus.OK);
+    }
+
+    @GetMapping("/disponibilidades/sem-evento")
+    public ResponseEntity<List<DisponibilidadeDTO>> listarAgendasSemEvento() {
+    List<Agenda> agendasSemEvento = agendaService.getAgendasSemEvento();
+
+    // Mapeando Agenda para DisponibilidadeDTO
+    List<DisponibilidadeDTO> disponibilidadesDTO = agendasSemEvento.stream()
+            .map(DisponibilidadeDTO::new)
+            .toList();
+
+    return ResponseEntity.ok(disponibilidadesDTO);
+    }
+
 }

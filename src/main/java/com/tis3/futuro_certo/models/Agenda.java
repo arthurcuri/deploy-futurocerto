@@ -1,11 +1,16 @@
 package com.tis3.futuro_certo.models;
 
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -19,7 +24,7 @@ public class Agenda {
     @Future(message = "A data e hora devem ser no futuro")
     private LocalDateTime dataHora;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Use LAZY para evitar carregar agendas desnecessariamente
+    @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario advogado;
 

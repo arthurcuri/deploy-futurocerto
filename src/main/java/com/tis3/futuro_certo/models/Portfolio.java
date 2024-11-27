@@ -1,6 +1,5 @@
 package com.tis3.futuro_certo.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -20,7 +19,6 @@ public class Portfolio {
     @Lob
     private String descricao;
 
-    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario advogado;

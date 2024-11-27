@@ -5,8 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.tis3.futuro_certo.dtos.PortfolioDTO;
 import com.tis3.futuro_certo.models.Portfolio;
-import com.tis3.futuro_certo.models.Usuario;
 import com.tis3.futuro_certo.repositories.PortfolioRepository;
 import com.tis3.futuro_certo.repositories.UsuarioRepository;
 
@@ -21,45 +21,50 @@ public class PortfolioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    // Conversão de Portfolio para PortfolioDTO
+    public PortfolioDTO toDTO(Portfolio portfolio) {
+        PortfolioDTO dto = new PortfolioDTO();
+        dto.setId(portfolio.getId());
+        dto.setFormacao(portfolio.getFormacao());
+        dto.setDescricao(portfolio.getDescricao());
+        dto.setAdvogadoId(portfolio.getAdvogado().getId());
+        dto.setAdvogadoNome(portfolio.getAdvogado().getNome());
+        return dto;
+    }
+
+    // Conversão de PortfolioDTO para Portfolio
+    public Portfolio toEntity(PortfolioDTO dto) {
+        Portfolio portfolio = new Portfolio();
+        portfolio.setId(dto.getId());
+        portfolio.setFormacao(dto.getFormacao());
+        portfolio.setDescricao(dto.getDescricao());
+        portfolio.setAdvogado(
+            usuarioRepository.findById(dto.getAdvogadoId())
+                .orElseThrow(() -> new EntityNotFoundException("Advogado não encontrado"))
+        );
+        return portfolio;
+    }
+
     public Portfolio createPortfolio(Portfolio portfolio) {
-        Usuario advogado = usuarioRepository.findById(portfolio.getAdvogado().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Advogado não encontrado"));
-
-        if (!advogado.getIsAdvogado()) {
-            throw new IllegalArgumentException("Usuário não é um advogado.");
-        }
-
         return portfolioRepository.save(portfolio);
     }
 
-
     public Portfolio updatePortfolio(Long id, Portfolio portfolioDetails) {
         Portfolio existingPortfolio = getPortfolioById(id);
-    
         existingPortfolio.setFormacao(portfolioDetails.getFormacao());
         existingPortfolio.setDescricao(portfolioDetails.getDescricao());
         existingPortfolio.setAdvogado(portfolioDetails.getAdvogado());
-    
-        return portfolioRepository.save(existingPortfolio); 
+        return portfolioRepository.save(existingPortfolio);
     }
-    
 
     public Portfolio getPortfolioById(Long id) {
         return portfolioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Portfólio não encontrado"));
     }
 
-    public Page<Portfolio> getAllPortfolios(Pageable pageable) {
-        try {
-            Page<Portfolio> portfolios = portfolioRepository.findAll(pageable);
-            System.out.println("Total de portfólios: " + portfolios.getTotalElements());
-            return portfolios;
-        } catch (Exception e) {
-            e.printStackTrace(); // Exibir a exceção no console
-            throw e; // Re-lançar a exceção para que o controlador possa capturá-la
-        }
+    public Page<PortfolioDTO> getAllPortfolios(Pageable pageable) {
+        return portfolioRepository.findAll(pageable).map(this::toDTO);
     }
-    
 
     public void deletePortfolio(Long id) {
         if (!portfolioRepository.existsById(id)) {

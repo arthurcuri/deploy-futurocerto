@@ -18,4 +18,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     List<Usuario> findByIsAdvogadoTrueAndPortfolioIsNull();
 
     List<Usuario> findByIsAdvogadoFalse();
+    
+    List<Usuario> findByIsAdvogadoTrueAndPortfolioIsNotNull();
+
 }

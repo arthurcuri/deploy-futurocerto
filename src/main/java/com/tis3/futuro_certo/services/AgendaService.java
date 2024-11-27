@@ -54,4 +54,13 @@ public class AgendaService {
     public List<Agenda> getAllDisponibilidades() {
         return agendaRepository.findAll();
     }
+
+    public List<Agenda> getDisponibilidadesSemAdvogado() {
+        return agendaRepository.findByAdvogadoIsNull();
+    }
+
+    public List<Agenda> getAgendasSemEvento() {
+        return agendaRepository.findAgendasSemEvento();
+    }
+    
 }

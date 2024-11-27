@@ -64,6 +64,11 @@ public class UsuarioService {
         return usuarioRepository.findByIsAdvogadoTrueAndPortfolioIsNull();
     }
 
+    public List<Usuario> getAdvogadosComPortfolio() {
+        return usuarioRepository.findByIsAdvogadoTrueAndPortfolioIsNotNull();
+    }
+    
+
     public Optional<Usuario> findByEmail(String email) {
         return usuarioRepository.findByEmail(email);
     }

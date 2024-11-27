@@ -1,23 +1,14 @@
 package com.tis3.futuro_certo.controllers;
 
+import com.tis3.futuro_certo.dtos.PortfolioDTO;
+import com.tis3.futuro_certo.services.PortfolioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.tis3.futuro_certo.models.Portfolio;
-import com.tis3.futuro_certo.services.PortfolioService;
-
-import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/portfolios")
@@ -27,29 +18,28 @@ public class PortfolioController {
     private PortfolioService portfolioService;
 
     @PostMapping
-    public ResponseEntity<Portfolio> createPortfolio(@Valid @RequestBody Portfolio portfolio) {
-        Portfolio createdPortfolio = portfolioService.createPortfolio(portfolio);
-        return new ResponseEntity<>(createdPortfolio, HttpStatus.CREATED);
+    public ResponseEntity<PortfolioDTO> createPortfolio(@Valid @RequestBody PortfolioDTO portfolioDTO) {
+        var portfolio = portfolioService.toEntity(portfolioDTO);
+        var createdPortfolio = portfolioService.createPortfolio(portfolio);
+        return new ResponseEntity<>(portfolioService.toDTO(createdPortfolio), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public Page<Portfolio> getAllPortfolios(Pageable pageable) {
-        Page<Portfolio> portfolios = portfolioService.getAllPortfolios(pageable);
-        System.out.println("Total de portfólios: " + portfolios.getTotalElements());
-        return portfolios;
+    public Page<PortfolioDTO> getAllPortfolios(Pageable pageable) {
+        return portfolioService.getAllPortfolios(pageable);
     }
-    
 
     @GetMapping("/{id}")
-    public ResponseEntity<Portfolio> getPortfolioById(@PathVariable Long id) {
-        Portfolio portfolio = portfolioService.getPortfolioById(id);
-        return new ResponseEntity<>(portfolio, HttpStatus.OK);
+    public ResponseEntity<PortfolioDTO> getPortfolioById(@PathVariable Long id) {
+        var portfolio = portfolioService.getPortfolioById(id);
+        return new ResponseEntity<>(portfolioService.toDTO(portfolio), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Portfolio> updatePortfolio(@PathVariable Long id, @Valid @RequestBody Portfolio portfolio) {
-        Portfolio updatedPortfolio = portfolioService.updatePortfolio(id, portfolio);
-        return new ResponseEntity<>(updatedPortfolio, HttpStatus.OK);
+    public ResponseEntity<PortfolioDTO> updatePortfolio(@PathVariable Long id, @Valid @RequestBody PortfolioDTO portfolioDTO) {
+        var portfolio = portfolioService.toEntity(portfolioDTO);
+        var updatedPortfolio = portfolioService.updatePortfolio(id, portfolio);
+        return new ResponseEntity<>(portfolioService.toDTO(updatedPortfolio), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

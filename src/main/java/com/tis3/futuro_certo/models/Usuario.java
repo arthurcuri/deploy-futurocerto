@@ -2,11 +2,10 @@ package com.tis3.futuro_certo.models;
 
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,8 +38,8 @@ public class Usuario {
     @NotNull(message = "IsAdvogado não pode ser nulo")
     private Boolean isAdvogado;
 
-    @JsonManagedReference
-    @OneToOne(mappedBy = "advogado", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "advogado")
+    @JsonIgnoreProperties("advogado") 
     private Portfolio portfolio;
 
     @OneToMany(mappedBy = "advogado")
