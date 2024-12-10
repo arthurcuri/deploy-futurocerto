@@ -5,21 +5,21 @@ import java.time.LocalDateTime;
 import com.tis3.futuro_certo.models.Agenda;
 
 public class DisponibilidadeDTO {
-    private Long id; // agendaId
+    private Long id; 
     private LocalDateTime dataHora;
     private String advogadoNome;
     private String advogadoEmail;
-    private Long advogadoId; // Adicione este campo
+    private Long advogadoId; 
 
     public DisponibilidadeDTO(Agenda agenda) {
-        this.id = agenda.getId(); // agendaId
+        this.id = agenda.getId(); 
         this.dataHora = agenda.getDataHora();
         this.advogadoNome = agenda.getAdvogado().getNome();
         this.advogadoEmail = agenda.getAdvogado().getEmail();
-        this.advogadoId = agenda.getAdvogado().getId(); // Preencher o advogadoId
+        this.advogadoId = agenda.getAdvogado().getId(); 
     }
 
-    // Getters e Setters
+    
     public Long getId() {
         return id;
     }
@@ -53,10 +53,10 @@ public class DisponibilidadeDTO {
     }
 
     public Long getAdvogadoId() {
-        return advogadoId; // Adicione o getter para advogadoId
+        return advogadoId; 
     }
 
     public void setAdvogadoId(Long advogadoId) {
-        this.advogadoId = advogadoId; // Adicione o setter para advogadoId
+        this.advogadoId = advogadoId; 
     }
 }

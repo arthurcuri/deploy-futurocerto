@@ -65,12 +65,9 @@ public class AgendaController {
             return new ResponseEntity<>("O usuário não é um advogado.", HttpStatus.BAD_REQUEST);
         }
 
-        // Você deve buscar a disponibilidade existente
         Agenda disponibilidadeExistente = agendaService.getDisponibilidadeById(id);
 
-        // Atualize os campos da disponibilidade conforme necessário
         disponibilidadeExistente.setDataHora(agenda.getDataHora());
-        // Você pode adicionar mais campos para atualizar aqui...
 
         agendaService.updateDisponibilidade(disponibilidadeExistente);
 
@@ -96,7 +93,6 @@ public class AgendaController {
     public ResponseEntity<List<DisponibilidadeDTO>> listarAgendasSemEvento() {
     List<Agenda> agendasSemEvento = agendaService.getAgendasSemEvento();
 
-    // Mapeando Agenda para DisponibilidadeDTO
     List<DisponibilidadeDTO> disponibilidadesDTO = agendasSemEvento.stream()
             .map(DisponibilidadeDTO::new)
             .toList();

@@ -10,7 +10,7 @@ public class EventoDTO {
     private String clienteNome;
     private boolean isPago;
 
-    // Construtor que aceita os parâmetros necessários
+    
     public EventoDTO(Long id, LocalDateTime dataEvento, String advogadoNome, String clienteNome, boolean isPago) {
         this.id = id;
         this.dataEvento = dataEvento;
@@ -19,7 +19,7 @@ public class EventoDTO {
         this.isPago = isPago;
     }
 
-    // Getters e setters (se necessário)
+    
     public Long getId() {
         return id;
     }

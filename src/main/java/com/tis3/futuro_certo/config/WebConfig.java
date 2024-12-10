@@ -26,10 +26,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // Permite todas as requisições
-                .allowedOrigins("http://localhost:5500") // Ajuste para o URL do seu frontend
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos permitidos
-                .allowedHeaders("*") // Permite todos os cabeçalhos
-                .allowCredentials(true); // Permite credenciais, se necessário
+        registry.addMapping("/**") 
+                .allowedOrigins("https://dainty-lebkuchen-31e0a5.netlify.app") 
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") 
+                .allowedHeaders("*") 
+                .allowCredentials(true);
     }
 }

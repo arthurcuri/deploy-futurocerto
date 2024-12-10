@@ -21,7 +21,7 @@ public class PortfolioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // Conversão de Portfolio para PortfolioDTO
+    
     public PortfolioDTO toDTO(Portfolio portfolio) {
         PortfolioDTO dto = new PortfolioDTO();
         dto.setId(portfolio.getId());
@@ -32,7 +32,7 @@ public class PortfolioService {
         return dto;
     }
 
-    // Conversão de PortfolioDTO para Portfolio
+    
     public Portfolio toEntity(PortfolioDTO dto) {
         Portfolio portfolio = new Portfolio();
         portfolio.setId(dto.getId());

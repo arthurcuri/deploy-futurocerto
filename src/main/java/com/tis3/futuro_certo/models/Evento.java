@@ -46,15 +46,15 @@ public class Evento {
         this.advogado = advogado;
         this.cliente = cliente;
         this.agenda = agenda;
-        this.isPago = isPago; // Inicializa o campo isPago
+        this.isPago = isPago; 
     }
 
-     // Método setter para isPago
+     
      public void setIsPago(boolean isPago) {
         this.isPago = isPago;
     }
 
-    // Método getter para isPago
+    
     public boolean isPago() {
         return isPago;
     }

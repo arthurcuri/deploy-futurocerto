@@ -105,7 +105,7 @@ public class UsuarioController {
         Optional<Usuario> usuarioOptional = usuarioService.findByEmail(email);
         if (usuarioOptional.isPresent()) {
             Usuario usuario = usuarioOptional.get();
-            usuario.setSenha(null); // Não retorna a senha
+            usuario.setSenha(null); 
             return ResponseEntity.ok(usuario);
         } else {
             return ResponseEntity.notFound().build();
@@ -122,7 +122,7 @@ public class UsuarioController {
     public ResponseEntity<List<Usuario>> getAllUsuariosWithoutPagination() {
         try {
             List<Usuario> usuarios = usuarioService.getAllUsuariosWithoutPagination();
-            usuarios.forEach(usuario -> usuario.setSenha(null)); // Não retorna a senha
+            usuarios.forEach(usuario -> usuario.setSenha(null)); 
             return ResponseEntity.ok(usuarios);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

@@ -43,39 +43,39 @@ public class EventoController {
             @PathVariable Long agendaId,
             @RequestParam(required = false, defaultValue = "false") boolean isPago) {
 
-        // Buscar o advogado
+        
         Usuario advogado = usuarioService.getUsuarioById(advogadoId);
         if (advogado == null || !advogado.getIsAdvogado()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        // Buscar o cliente
+        
         Usuario cliente = usuarioService.getUsuarioById(clienteId);
         if (cliente == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // Buscar a disponibilidade na Agenda
+        
         Agenda agenda = agendaService.getDisponibilidadeById(agendaId);
         if (agenda == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // Verificar se o advogado na disponibilidade corresponde ao advogado passado
+        
         if (!agenda.getAdvogado().getId().equals(advogadoId)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        // Criar o evento
+        
         Evento evento = new Evento();
-        evento.setDataEvento(LocalDateTime.now()); // ou outra data específica
+        evento.setDataEvento(LocalDateTime.now());
         evento.setAdvogado(advogado);
         evento.setCliente(cliente);
         evento.setAgenda(agenda);
-        evento.setIsPago(isPago); // Define o campo isPago
+        evento.setIsPago(isPago); 
 
-        // Chamada correta ao método criarEvento
-        Evento novoEvento = eventoService.criarEvento(agendaId, cliente, isPago); // Passando isPago
+        
+        Evento novoEvento = eventoService.criarEvento(agendaId, cliente, isPago);
 
         return new ResponseEntity<>(novoEvento, HttpStatus.CREATED);
     }
@@ -94,42 +94,42 @@ public class EventoController {
 
     @PutMapping("/{id}/alterar-pago")
     public ResponseEntity<Evento> alterarStatusPagamento(@PathVariable Long id, @RequestParam boolean isPago) {
-        // Buscar o evento pelo ID
+        
         Evento evento = eventoService.getEventoById(id);
         if (evento == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // Alterar o status de pagamento
+        
         evento.setIsPago(isPago);
 
-        // Salvar a alteração
-        Evento eventoAtualizado = eventoService.salvarEvento(evento); // Supondo que o método salvarEvento existe no
-                                                                      // EventoService
+        
+        Evento eventoAtualizado = eventoService.salvarEvento(evento); 
+                                                                      
 
         return new ResponseEntity<>(eventoAtualizado, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EventoDTO> getEvento(@PathVariable Long id) {
-        // Busca o evento pelo ID
+        
         Evento evento = eventoService.findById(id);
 
-        // Verifica se o evento foi encontrado
+        
         if (evento == null) {
             return ResponseEntity.notFound().build();
         }
 
-        // Mapeia o evento para o DTO
+        
         EventoDTO eventoDTO = new EventoDTO(
                 evento.getId(),
                 evento.getDataEvento(),
-                evento.getAdvogado() != null ? evento.getAdvogado().getNome() : null, // Nome do advogado
-                evento.getCliente() != null ? evento.getCliente().getNome() : null, // Nome do cliente
-                evento.isPago() // Indica se o evento foi pago
+                evento.getAdvogado() != null ? evento.getAdvogado().getNome() : null, 
+                evento.getCliente() != null ? evento.getCliente().getNome() : null, 
+                evento.isPago() 
         );
 
-        return ResponseEntity.ok(eventoDTO); // Retorna o DTO no corpo da resposta
+        return ResponseEntity.ok(eventoDTO); 
     }
 
 }

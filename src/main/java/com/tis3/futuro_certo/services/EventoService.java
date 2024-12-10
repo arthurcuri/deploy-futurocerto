@@ -24,29 +24,29 @@ public class EventoService {
     @Autowired
     private AgendaRepository agendaRepository;
 
-    // Método para criar um evento
+    
     public Evento criarEvento(Long agendaId, Usuario cliente, boolean isPago) {
-        // Busca a disponibilidade pela Agenda
+        
         Agenda agenda = agendaRepository.findById(agendaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Agenda não encontrada com ID: " + agendaId));
     
-        // Pega o advogado da Agenda
+        
         Usuario advogado = agenda.getAdvogado();
     
-        // Cria o evento usando a data, o advogado da Agenda e o parâmetro isPago
-        Evento evento = new Evento(agenda.getDataHora(), advogado, cliente, agenda, isPago); // Passando isPago
+        
+        Evento evento = new Evento(agenda.getDataHora(), advogado, cliente, agenda, isPago); 
     
         return eventoRepository.save(evento);
     }
     
 
-    // Método para obter um evento por ID
+    
     public Evento getEventoById(Long id) {
         Optional<Evento> evento = eventoRepository.findById(id);
         return evento.orElseThrow(() -> new ResourceNotFoundException("Evento não encontrado com ID: " + id));
     }
 
-    // Método para deletar um evento
+   
     public void deleteEvento(Long id) {
         if (!eventoRepository.existsById(id)) {
             throw new ResourceNotFoundException("Evento não encontrado com ID: " + id);
@@ -55,16 +55,16 @@ public class EventoService {
     }
 
     public List<EventoDTO> findAllEventos() {
-        List<Evento> eventos = eventoRepository.findAll(); // Obtém todos os eventos do banco
+        List<Evento> eventos = eventoRepository.findAll(); 
         return eventos.stream()
                       .map(evento -> new EventoDTO(
                           evento.getId(),
                           evento.getDataEvento(),
-                          evento.getAdvogado() != null ? evento.getAdvogado().getNome() : null, // Obtém nome do advogado
-                          evento.getCliente() != null ? evento.getCliente().getNome() : null,  // Obtém nome do cliente
+                          evento.getAdvogado() != null ? evento.getAdvogado().getNome() : null, 
+                          evento.getCliente() != null ? evento.getCliente().getNome() : null,  
                           evento.isPago()
                       ))
-                      .collect(Collectors.toList()); // Converte para lista de DTOs
+                      .collect(Collectors.toList()); 
     }
     
 
@@ -75,7 +75,7 @@ public class EventoService {
     public Evento findById(Long id) {
         Optional<Evento> evento = eventoRepository.findById(id);
         if (evento.isPresent()) {
-            return evento.get();  // Retorna o evento encontrado
+            return evento.get(); 
         } else {
             throw new RuntimeException("Evento não encontrado com ID: " + id);
         }
